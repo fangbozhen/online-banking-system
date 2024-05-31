@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("com.zjuse.bankingsystem.mapper")
+@MapperScan("com.baomidou.mybatisplus.samples.quickstart.mapper")
 public class BankingSystemApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BankingSystemApplication.class);
