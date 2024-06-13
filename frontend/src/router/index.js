@@ -10,6 +10,7 @@ import OfficerMainLayout from "@/components/OfficerMainLayout.vue";
 import UserMainLayout from "@/components/UserMainLayout.vue";
 import CounterBaseLayout from "@/components/CounterBaseLayout.vue";
 import FcAdminBaseLayout from "@/components/FcAdminBaseLayout.vue";
+import InspectorBaseLayout from "@/components/InspectorBaseLayout.vue";
 
 // loan
 import LoginSelector from '@/views/Loan/LoginSelector.vue';
@@ -350,9 +351,15 @@ const routes = [
         component: () => import('../views/CreditCard/login/CustomerLoginView.vue')
     },
     {
-        path: '/creditCard/inspector/request',
-        name: 'responseToRequests',
-        component: () => import('../views/CreditCard/inspector/CustomerRequestView.vue')
+        path:'/creditCard/inspector',
+        component: InspectorBaseLayout,
+        children: [
+            {
+                path: 'request',
+                name: 'responseToRequests',
+                component: () => import('../views/CreditCard/inspector/CustomerRequestView.vue')
+            },
+        ]
     },
     {
         path: '/counter/admin/login',
