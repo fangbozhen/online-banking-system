@@ -77,7 +77,7 @@ public class CurrencyManagerController {
                     result.message = "Success";
                 }
             }else{
-                result.message = "error operation";
+                throw new Exception("error operation");
             }
         }catch(Exception e){
             return RespResult.fail( e.getMessage());
