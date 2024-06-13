@@ -215,7 +215,6 @@ Insert into `rate`values
 (0.2,1.15,1.35,1.45,1.65,1.95,2.00);
 
 -- 外汇
-
 INSERT INTO foreign_currency (fc_id, fc_name) VALUES ('RMB', '人民币');
 INSERT INTO foreign_currency (fc_id, fc_name) VALUES ('USD', '美元');
 INSERT INTO foreign_currency (fc_id, fc_name) VALUES ('EUR', '欧元');
@@ -226,7 +225,8 @@ INSERT INTO foreign_currency_rate (fc_id, fc_date, fc_rate) VALUES ('RMB', '2020
 
 INSERT INTO data_operator (data_operator_id, username, password, email, phone_number) VALUES 
 ('1', 'a5', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 'data_operator_1@gmail.com', '12345678901');
-
+INSERT INTO history_operation_record (record_id,data_operator_id,fc_id,operation,old_rate,new_rate,dest_date,operation_time)
+VALUES ('1','1','EUR','zengjia',7.5,6.5,'2020-01-01 00:00:00','2020-01-02 00:00:00');
 INSERT INTO trade_record (trade_id, fc_id, trade_time, amount_cny, amount_foreign_currency, user_id, credit_card_id, is_buy_in) VALUES
     ('20230530000001', 'RMB', '2024-05-30 12:00:00', 100.00, 100.00, '0', '1234567890', TRUE);
 
