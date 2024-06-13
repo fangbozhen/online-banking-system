@@ -60,7 +60,7 @@
       </el-dialog>
 
       <!-- 修改对话框 -->
-      <el-dialog title="新增汇率" v-model="editCurrencyVisible" width="30%">
+      <el-dialog title="修改汇率" v-model="editCurrencyVisible" width="30%">
         <el-form :model="operationInfo" label-width="80px">
           <el-form-item label="外币名称">
             <el-input v-model="operationInfo.fc_name"/>
