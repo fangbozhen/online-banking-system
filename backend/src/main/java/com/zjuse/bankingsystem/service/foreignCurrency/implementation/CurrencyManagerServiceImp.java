@@ -76,7 +76,10 @@ public class CurrencyManagerServiceImp implements CurrencyManagerService {
 
     @Override
     public double getCurrencyRate(String currency_name, LocalDateTime date) {
-        return currencyManagerMapper.selectForeignCurrencyRateExactly(currency_name, date).getFc_rate();
+        ForeignCurrency fc = currencyManagerMapper.selectForeignCurrencyExactly(currency_name);
+        if(fc == null)
+            throw new RuntimeException("no such currency");
+        return currencyManagerMapper.selectForeignCurrencyRateExactly(fc.getFc_id(), date).getFc_rate();
     }
 
     @Override
