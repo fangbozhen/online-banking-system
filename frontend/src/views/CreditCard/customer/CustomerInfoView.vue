@@ -1,5 +1,5 @@
 <template>
-  <el-main style="display: flex; flex-direction:column; flex: 1; margin-left: 30px; margin-top: 20px">
+  <el-main style="display: flex; flex-direction:column; flex: 1;">
     <el-divider orientation="left" style="align-self: flex-start; width: 300px">用户信息</el-divider>
     <el-form label-width="80px">
       <el-form-item label="用户名" prop="username">
@@ -15,6 +15,9 @@
         <el-text>{{ userInfo.email }}</el-text>
       </el-form-item>
     </el-form>
+    <el-button type="primary" style="margin-left: 10px; margin-top: 20px; width: 250px;" @click="jump">
+      前往编辑资料页面
+    </el-button>
   </el-main>
 </template>
 
@@ -37,6 +40,9 @@ export default {
     }
   },
   methods: {
+    jump(){
+      this.$router.push('/personalBank/user/profile');
+    },
     queryInfo() {
       axios.defaults.headers.common['Authorization'] = Cookies.get('token');
       axios.get("/user/profile")
