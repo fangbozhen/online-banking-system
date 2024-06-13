@@ -10,13 +10,15 @@
               v-model="loanHistoryData.startDate"
               type="date"
               placeholder="开始日期"
-              value-format="yyyy-MM-dd"
+              value-format="YYYY-MM-DD"
+            format="YYYY-MM-DD"
           ></el-date-picker>
           <el-date-picker
               v-model="loanHistoryData.endDate"
               type="date"
               placeholder="结束日期"
-              value-format="yyyy-MM-dd"
+              value-format="YYYY-MM-DD"
+            format="YYYY-MM-DD"
           ></el-date-picker>
         </el-form-item>
         <el-form-item label="贷款状态">
@@ -46,6 +48,7 @@
     </div>
     <div class="loan-history-table">
       <el-table :data="loanHistoryList" border style="width: 100%">
+        <el-table-column prop="loan_id" label="贷款ID"></el-table-column>
         <el-table-column prop="card_id" label="银行卡号"></el-table-column>
         <el-table-column prop="amount" label="贷款金额"></el-table-column>
         <el-table-column prop="rate" label="利率"></el-table-column>
@@ -67,7 +70,6 @@
 </template>
 
 <script>
-
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -127,7 +129,6 @@ export default {
   }
 };
 </script>
-
 <style scoped>
 .page-container {
   max-width: 800px;
