@@ -110,7 +110,7 @@ axios.defaults.baseURL = 'http://localhost:8082';
 export default {
   data() {
     return {
-      isShow: true, // 结果表格展示状态
+      isShow: false, // 结果表格展示状态
       searchForm: {
         userId: null,
         fcId: null,
@@ -157,7 +157,11 @@ export default {
         this.searchForm.userId = this.getUserId()
         const response = await axiosInstance.post('/fc/trade/history/search', this.searchForm);
         console.log(response);
-        this.tableData = response.data;
+        let records = response.data.payload // 接收响应负载
+        records.forEach(record => { // 对于每个图书
+          this.tableData.push(record) // 将其加入到列表中
+        })
+        // this.tableData = response.data.payload
         this.isShow = true // 显示结果列表
       } catch (error) {
         console.error("Error fetching trade records:", error);
@@ -166,9 +170,13 @@ export default {
     async QueryTrade() {
       this.tableData = [] // 清空列表
       this.userId = this.getUserId()
-      axiosInstance.get(`/fc/trade/history/${this.userId}`).then(response => {
+      axiosInstance.get(`/fc/trade/history/query`).then(response => {
         console.log(response);
-        this.tableData = response.data // 获取响应负载
+        let records = response.data.payload // 接收响应负载
+        records.forEach(record => { // 对于每个图书
+          this.tableData.push(record) // 将其加入到列表中
+        })
+        // this.tableData = response.data.payload // 获取响应负载
         this.isShow = true // 显示结果列表
       }).catch(error => {
         console.log(error)
