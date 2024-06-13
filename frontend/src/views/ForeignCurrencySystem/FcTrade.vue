@@ -35,6 +35,9 @@
           />
         </el-select>
       </el-form-item>
+      <el-form-item label="输入交易密码">
+        <el-input style="width: 10vw;" type="password" v-model="password" placeholder="密码" show-password/>
+      </el-form-item>
       <el-form-item>
         <el-button style="margin-left: 60px;" type="primary" @click="executeTrade">执行交易</el-button>
       </el-form-item>
@@ -47,6 +50,7 @@
 import {ElMessage} from 'element-plus';
 import axios from 'axios';
 import Cookies from "js-cookie";
+import CryptoJS from "crypto-js";
 
 const axiosInstance = axios.create();
 axiosInstance.interceptors.request.use(config => {
@@ -86,7 +90,8 @@ export default {
       amount: 0, // 交易金额
       amount_cny: 0,
       accountId: '', // 与交易的账号ID
-      transactionResult: '' // 交易结果
+      transactionResult: '', // 交易结果
+      password: '',
     };
   },
   methods: {
@@ -117,18 +122,22 @@ export default {
             amount_cny: this.amount_cny,
             amount_foreign_currency: this.amount,
             is_buy_in: this.tradeType
-          })
-          .then(response => {
-            // 处理后端返回的交易结果
-            if (response.data.code === 0) {
-              ElMessage.success('交易成功');
-            }else{
-              ElMessage.error('交易失败：' + response.data.err);
+          }, {
+            params: {
+              password: CryptoJS.SHA256(this.password).toString(),
             }
           })
-          .catch(error => {
-            ElMessage.error('交易失败：' + error.message);
-          });
+              .then(response => {
+                // 处理后端返回的交易结果
+                if (response.data.code === 0) {
+                  ElMessage.success('交易成功');
+                } else {
+                  ElMessage.error('交易失败：' + response.data.err);
+                }
+              })
+              .catch(error => {
+                ElMessage.error('交易失败：' + error.message);
+              });
         }
       } else {
         ElMessage.error('交易失败:账号ID无效');
