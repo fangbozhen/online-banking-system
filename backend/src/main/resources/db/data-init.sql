@@ -220,7 +220,7 @@ INSERT INTO foreign_currency (fc_id, fc_name) VALUES ('USD', '美元');
 INSERT INTO foreign_currency (fc_id, fc_name) VALUES ('EUR', '欧元');
 INSERT INTO foreign_currency (fc_id, fc_name) VALUES ('GBP', '英镑');
 
-INSERT INTO foreign_currency_rate (fc_id, fc_date, fc_rate) VALUES ('RMB', '2020-01-01 00:00:00', '1.0000'),('RMB', '2020-01-02 00:00:00', '2.0000'),
+INSERT INTO foreign_currency_rate (fc_id, fc_date, fc_rate) VALUES ('RMB', '2020-01-01 00:00:00', '1.0000'),
 ('USD', '2020-01-01 00:00:00', '6.0000'), ('EUR', '2020-01-01 00:00:00', '7.0000'), ('GBP', '2020-01-01 00:00:00', '8.0000');
 
 INSERT INTO data_operator (data_operator_id, username, password, email, phone_number) VALUES 
