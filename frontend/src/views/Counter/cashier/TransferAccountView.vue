@@ -117,6 +117,10 @@ export default {
         this.$message.error('目标账户不可为原账户');
         return;
       }
+      if(this.the_amount <= this.money){
+        this.$message.error('您的余额不足');
+        return;
+      }
 
       if (isNaN(this.money)) {
         this.$message.error('输入的金额不是一个有效的数字');

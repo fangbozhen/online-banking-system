@@ -138,7 +138,7 @@ export default {
           this.password = "";
         }
       })
-      this.withdraw_amount = "";
+      // this.withdraw_amount = "";
     }
   },
   mounted() {
