@@ -11,24 +11,24 @@ INSERT INTO `card` (card_id, card_type) VALUES
 
 INSERT INTO `user` (username, password, id_number, email, phone_number) VALUES
 ('a1', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 
-'134015851838831650', 'test1@zju.edu.cn', '12967777593');
+'134015851838831650', 'test1@zju.edu.cn', '13967777593');
 
 
 INSERT INTO `user` (username, password, id_number, email, phone_number) VALUES
 ('a2', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 
-'134015851838831651', 'test2@zju.edu.cn', '12967777594');
+'134015851838831651', 'test2@zju.edu.cn', '13967777594');
 
 INSERT INTO `user` (username, password, id_number, email, phone_number) VALUES
 ('a3', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 
-'134015851838831652', 'test3@zju.edu.cn', '12967777595');
+'134015851838831652', 'test3@zju.edu.cn', '13967777595');
 
 INSERT INTO `user` (username, password, id_number, email, phone_number) VALUES
 ('a4', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 
-'134015851838831653', 'test4@zju.edu.cn', '12967777596');
+'134015851838831653', 'test4@zju.edu.cn', '13967777596');
 
 INSERT INTO `user` (username, password, id_number, email, phone_number) VALUES
 ('a5', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 
-'134015851838831654', 'test5@zju.edu.cn', '12967777597');
+'134015851838831654', 'test5@zju.edu.cn', '13967777597');
 
 -- end of user example
 

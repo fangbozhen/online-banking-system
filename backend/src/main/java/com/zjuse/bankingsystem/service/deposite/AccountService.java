@@ -110,6 +110,24 @@ public class AccountService {
     public ApiResult VerifyPassword(Long cardid,String password){
         try{
             QueryWrapper<Account> wrapper = new QueryWrapper<>();
+            wrapper.eq("card_id",cardid);
+            List<Account> account = accountMapper.selectList(wrapper);
+            if(account.size()==0) {
+                return new ApiResult(false,"卡片不存在");
+            }
+            if(password.equals(account.get(0).getPassword())) {
+                return  new ApiResult(true,account.get(0).getId());
+            }else{
+                return new ApiResult(false,"密码不匹配");
+            }
+        }catch(Exception e){
+            return new ApiResult(false,e.getMessage());
+        }
+    }
+
+    public ApiResult VerifyPasswordAccount(Long cardid,String password){
+        try{
+            QueryWrapper<Account> wrapper = new QueryWrapper<>();
             wrapper.eq("id",cardid);
             List<Account> account = accountMapper.selectList(wrapper);
             if(account.size()==0) {

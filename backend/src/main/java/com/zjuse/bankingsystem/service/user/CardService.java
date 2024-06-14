@@ -85,6 +85,12 @@ public class CardService {
             if (isInBlacklist) {
                 return new ApiResult(false, "user is in blacklist");
             }
+            
+            QueryWrapper queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("card_id", cardId);
+            if (cardMapper.selectCount(queryWrapper) == 0) {
+                return new ApiResult(false, "card not exist");
+            }
 
             CardOfPerson cardOfPerson = new CardOfPerson();
             cardOfPerson.setCardId(cardId);
@@ -110,7 +116,11 @@ public class CardService {
             if (isInBlacklist) {
                 return new ApiResult(false, "user is in blacklist");
             }
-
+            QueryWrapper queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("card_id", cardId);
+            if (cardMapper.selectCount(queryWrapper) == 0) {
+                return new ApiResult(false, "card not exist");
+            }
             CardOfPerson cardOfPerson = new CardOfPerson();
             cardOfPerson.setCardId(cardId);
             cardOfPerson.setUserId(userId);

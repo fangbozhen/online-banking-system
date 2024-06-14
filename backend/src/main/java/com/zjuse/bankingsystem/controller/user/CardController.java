@@ -130,24 +130,26 @@ public class CardController {
 
     @Data
     @AllArgsConstructor
-    class BindingReceiver {
+    static class BindingReceiver {
         @JsonProperty("card_id")
         @NonNull
         Long cardId;
-        @JsonProperty("user_id")
-        @NonNull
-        Long userId;
         @NonNull
         String password;
     };
     
-    @PostMapping("binding")
+    @PostMapping("bind")
     public RespResult binding(@RequestBody BindingReceiver receiver) {
+        ApiResult res = currentUserService.getCurrentUser(); 
+        if (!res.ok) {
+            return RespResult.fail(res.message);
+        }
+        User user = (User) res.payload; 
         ApiResult apiResult = userAndCardService.valid(receiver.getCardId(), receiver.getPassword());
         if (!apiResult.ok) {
             return RespResult.fail(apiResult.message);
         }
-        apiResult = cardService.bindUserAndCard(receiver.getUserId(), receiver.getCardId());
+        apiResult = cardService.bindUserAndCard(receiver.getCardId(), user.getId());
         if (apiResult.ok) {
             return RespResult.success();
         }
