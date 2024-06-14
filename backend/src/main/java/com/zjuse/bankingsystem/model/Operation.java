@@ -1,6 +1,7 @@
 package com.zjuse.bankingsystem.model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.zjuse.bankingsystem.entity.foreignCurrency.HistoryOperationRecord;
@@ -15,7 +16,8 @@ public class Operation{
     LocalDateTime dest_date;
 
     public HistoryOperationRecord toHistoryOperationRecord(CurrencyManagerService currencyManagerService){
-        String record_id = LocalDateTime.now().toString();
+        DateTimeFormatter dfDate = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSSSSS");
+        String record_id = dfDate.format(LocalDateTime.now());
         if(record_id.length() > 20)
             record_id = record_id.substring(0, 20);
         String data_operator_id = this.data_operator_id;
