@@ -102,7 +102,7 @@ export default {
   },
   methods: {
     exit() {
-      this.$router.push('/personalBank/user/account');
+      this.$router.push('/personalBank/admin/login');
     },
   },
 };
