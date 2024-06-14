@@ -64,7 +64,7 @@ public class RepayController {
         // System.out.println("repay_amount:" + repay_amount);
         int result = amountService.subAmount(card_id, BigDecimal.valueOf(repay_amount), password);
 
-        loanQueryService.updatestatus(loan_id);
+        if (amount > repay_amount) loanQueryService.updatestatus(loan_id);
 
         Map<String, Object> response = new HashMap<>();
 
