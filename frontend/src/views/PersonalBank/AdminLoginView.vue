@@ -181,7 +181,7 @@ export default {
                 Cookies.set('storePersonName',res.data.payload.username);
                 // store.state.person.id = res.data.payload.data_operator_id
                 // store.state.person.name = res.data.payload.username
-              }, 1000)
+              }, 10)
             } else {
               ElMessage.error(res.data.err)
             }
