@@ -69,32 +69,32 @@ export default {
         MaxDate: '',
         Remark: ''
       },
-      this.QueryCond()
+          this.QueryCond()
     },
     ReturnAcc(){
-      this.$router.push('/personalBank/user/account',);
+      this.$router.push('/personalBank/user/account');
     },
     async QueryCond(){
       this.Data = []
       try {
-        const tg = this.Cond.target_card_id ? Number(this.Cond.target_card_id) : this.Cond.target_card_id ;
+        const tg = this.Cond.target_id ? Number(this.Cond.target_id) : this.Cond.target_id ;
         const cd = this.Cond.cardID ? Number(this.Cond.cardID) : this.Cond.cardID ;
         const ia = this.Cond.MinAmount ? Number(this.Cond.MinAmount) : this.Cond.MinAmount ;
         const xa = this.Cond.MaxAmount ? Number(this.Cond.MaxAmount) : this.Cond.MaxAmount ;
         const st = this.Cond.MinDate;
         const et = this.Cond.MaxDate;
         axios.defaults.headers.common['Authorization'] = Cookies.get('token');
-        let response = await axios.post("/card/history", 
-         {
-            "card_id": Number(this.accountNumber), 
-            "target_card_id": tg,
-            "transfer_card_id": cd,
-            "least_amount": ia,
-            "most_amount": xa,
-            "start_time": st,
-            "end_time" : et,
-            "remark": this.Cond.Remark
-          })
+        let response = await axios.post("/card/history",
+            {
+              "card_id": Number(this.accountNumber),
+              "target_card_id": tg,
+              "transfer_card_id": cd,
+              "least_amount": ia,
+              "most_amount": xa,
+              "start_time": st,
+              "end_time" : et,
+              "remark": this.Cond.Remark
+            })
         let querydata = response.data
         if (querydata.code === 0) {
           console.log(querydata['payload'])
@@ -117,7 +117,7 @@ export default {
     }
   },
   mounted() {
-    this.QueryData(); 
+    this.QueryData();
   }
 }
 </script>
