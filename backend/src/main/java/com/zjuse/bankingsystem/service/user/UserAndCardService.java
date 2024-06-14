@@ -88,7 +88,7 @@ public class UserAndCardService {
                 apiResult = new ApiResult(true, "success");
             }
             else {
-                apiResult = accountService.VerifyPassword(cardId, password);
+                apiResult = accountService.VerifyPasswordAccount(cardId, password);
                 if (!apiResult.ok) {
                     return apiResult;
                 }
