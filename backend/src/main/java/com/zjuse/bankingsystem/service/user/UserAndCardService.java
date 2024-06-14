@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.zjuse.bankingsystem.entity.deposite.Account;
 import com.zjuse.bankingsystem.entity.user.Card;
 import com.zjuse.bankingsystem.entity.user.History;
 import com.zjuse.bankingsystem.entity.user.HistoryCondition;
@@ -66,6 +67,17 @@ public class UserAndCardService {
                 return new ApiResult(false, "permission denied");
             }
             // check priviledge? I don't know
+            
+            if (cardService.getCardType(cardId) == CardType.DEBIT_CARD) {
+                ApiResult apiResult = accountService.getAccountByAccountId(cardId);
+                if (apiResult.ok == false) {
+                    return apiResult;
+                }
+                if (((Account) apiResult.payload).getStatus() != AccountStatus.Normal) {
+                    return new ApiResult(false, "account status is not normal");
+                }
+            }
+
             ApiResult apiResult = null;
             if (cardService.getCardType(cardId) == CardType.CREDIT_CARD) {
                 Date date = new Date(System.currentTimeMillis());
@@ -398,7 +410,6 @@ public class UserAndCardService {
                 return new ApiResult(false, "target card not exist");
             }
 
-            
             if (!cardService.checkTransfer(cardId)) {
                 return new ApiResult(false, "permission denied");
             }
@@ -407,6 +418,16 @@ public class UserAndCardService {
                 return new ApiResult(false, "target card permission denied");
             }
             
+            if (cardService.getCardType(cardId) == CardType.DEBIT_CARD) {
+                ApiResult apiResult = accountService.getAccountByAccountId(cardId);
+                if (apiResult.ok == false) {
+                    return apiResult;
+                }
+                if (((Account) apiResult.payload).getStatus() != AccountStatus.Normal) {
+                    return new ApiResult(false, "account status is not normal");
+                }
+            }
+
             ApiResult apiResult;
             // check priviledge? I don't know
             if (cardService.getCardType(cardId) == CardType.CREDIT_CARD) {
@@ -435,7 +456,6 @@ public class UserAndCardService {
                     Rollback(cardId, amount);
                     return apiResult;
                 }
-                System.out.println("### ok2" + targetCardId);
             }
             else {
                 apiResult = demandDepositService.changeAmount(targetCardId, amount);
