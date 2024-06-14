@@ -125,7 +125,7 @@ export default {
         if (response.data.code === 1) {
           this.$message.error(response.data.err);
         } else {
-          this.$alert("开户成功，您的账户卡号为： " + response.data.payload.card_id);
+          this.$alert("开户成功，您的账户卡号为： " + response.data.payload.card_id + "账号为: " + response.data.payload.id);
         }
       })
       this.name = '';

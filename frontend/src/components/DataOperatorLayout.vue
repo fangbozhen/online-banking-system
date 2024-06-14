@@ -66,7 +66,7 @@
     },
     methods: {
       handleLogout() {
-        this.$router.push('/');
+        this.$router.push('/personalBank/admin/login');
         store.state.person.id = ''
         store.state.person.username = ''
       }

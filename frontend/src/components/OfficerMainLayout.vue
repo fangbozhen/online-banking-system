@@ -4,8 +4,8 @@
       <el-container>
         <el-header class="title">
           <div style="margin-top: 12px; display: inline-block;">
-            <img src="../components/icons/logo.png" 
-                 style="margin-right: 20px; height: 40px; vertical-align: middle;" />
+            <img src="../components/icons/logo.png"
+                 style="margin-right: 20px; height: 40px; vertical-align: middle;"/>
             <span style="font-size: large; font-family: 'Microsoft YaHei';
                          color: black; font-weight: bold;">贷款审查员</span>
             <span style="margin-left: 40px; color: rgba(0, 0, 0, 0.2)">在线银行系统/贷款审查系统</span>
@@ -18,59 +18,76 @@
                      style="height: 100%; width: 100%;" :router="true">
               <el-menu-item index="/officer-main/loan-approval">
                 <el-icon>
-                  <Reading />
+                  <Reading/>
                 </el-icon>
                 <span>贷款审批</span>
               </el-menu-item>
               <el-menu-item index="/officer-main/loan-history">
                 <el-icon>
-                  <Postcard />
+                  <Postcard/>
                 </el-icon>
                 <span>审批历史查询</span>
               </el-menu-item>
               <el-menu-item index="/officer-main/loan-inquire">
                 <el-icon>
-                  <Tickets />
+                  <Tickets/>
                 </el-icon>
                 <span>用户贷款历史查询</span>
               </el-menu-item>
-             
+
               <el-menu-item index="/officer-main/secret">
                 <el-icon>
-                  <Tickets />
+                  <Tickets/>
                 </el-icon>
                 <span>修改密码</span>
               </el-menu-item>
 
               <el-button type="danger"
-                         @click="exit"
+                         @click="logoutVisible=true"
                          style="display: block; margin: auto;">
                 退出登录
               </el-button>
-             
+
             </el-menu>
           </el-aside>
 
           <el-main style="height: 100%; width: 100%;">
             <el-scrollbar height="100%">
-              <RouterView class="content" style="height: 90vh; max-height: 100%; background-color: white; color: black;" />
+              <RouterView class="content"
+                          style="height: 90vh; max-height: 100%; background-color: white; color: black;"/>
             </el-scrollbar>
           </el-main>
         </el-container>
       </el-container>
     </div>
+
+    <el-dialog title="提示" v-model="logoutVisible" width="30%" align-center>
+      确认退出？
+      <template #footer>
+          <span>
+            <el-button @click="logoutVisible = false">取消</el-button>
+            <el-button type="primary" @click="exit">确定</el-button>
+          </span>
+      </template>
+    </el-dialog>
+
   </div>
 </template>
 
 <script>
-import { RouterView } from 'vue-router';
+import {RouterView} from 'vue-router';
 import Cookies from "js-cookie";
 
 export default {
+  data() {
+    return {
+      logoutVisible: false,
+    }
+  },
   components: {
     RouterView
   },
-  methods:{
+  methods: {
     exit() {
       Cookies.remove('token');
       this.$router.push('/personalBank/admin/login');
@@ -119,6 +136,7 @@ export default {
   border-right: 1px solid #bdc3c7; /* 添加右侧边框 */
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* 添加阴影 */
 }
+
 .el-menu {
   height: 100%;
   width: 100%;

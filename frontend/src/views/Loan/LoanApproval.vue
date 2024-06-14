@@ -195,7 +195,7 @@ export default {
 
     const viewLoanDetails = async (loan) => {
       try {
-        const formResponse = await axiosInstance.get(`/get-forms/${loan.loan_id}`);
+        const formResponse = await axiosInstance.get(`/get-forms/${loan.form_id}`);
         selectedForm.value = formResponse.data;
         formDialogVisible.value = true;
       } catch (error) {

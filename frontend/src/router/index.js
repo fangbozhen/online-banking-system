@@ -9,6 +9,8 @@ import ManagerMainLayout from "@/components/ManagerMainLayout.vue";
 import OfficerMainLayout from "@/components/OfficerMainLayout.vue";
 import UserMainLayout from "@/components/UserMainLayout.vue";
 import CounterBaseLayout from "@/components/CounterBaseLayout.vue";
+import FcAdminBaseLayout from "@/components/FcAdminBaseLayout.vue";
+import InspectorBaseLayout from "@/components/InspectorBaseLayout.vue";
 
 // loan
 import LoginSelector from '@/views/Loan/LoginSelector.vue';
@@ -193,14 +195,20 @@ const routes = [
         component: () => import('../views/ForeignCurrencySystem/fcAdmin/FcAdminLoginView.vue')
     },
     {
-        path: '/fc/admin/home',
-        name: 'fcAdminHome',
-        component: () => import('../views/ForeignCurrencySystem/fcAdmin/fcAdminHomeView.vue')
-    },
-    {
-        path: '/fc/admin/operationRecord',
-        name: 'operationRecordQuery',
-        component: () => import('../views/ForeignCurrencySystem/fcAdmin/fcAdminOperationQuery.vue')
+        path: '/fc/admin',
+        component: FcAdminBaseLayout,
+        children: [
+            {
+                path: 'home',
+                name: 'fcAdminHome',
+                component: () => import('../views/ForeignCurrencySystem/fcAdmin/fcAdminHomeView.vue')
+            },
+            {
+                path: 'operationRecord',
+                name: 'operationRecordQuery',
+                component: () => import('../views/ForeignCurrencySystem/fcAdmin/fcAdminOperationQuery.vue')
+            },
+        ]
     },
     {
         path: '/fc/data_operator/start',
@@ -343,9 +351,15 @@ const routes = [
         component: () => import('../views/CreditCard/login/CustomerLoginView.vue')
     },
     {
-        path: '/creditCard/inspector/request',
-        name: 'responseToRequests',
-        component: () => import('../views/CreditCard/inspector/CustomerRequestView.vue')
+        path:'/creditCard/inspector',
+        component: InspectorBaseLayout,
+        children: [
+            {
+                path: 'request',
+                name: 'responseToRequests',
+                component: () => import('../views/CreditCard/inspector/CustomerRequestView.vue')
+            },
+        ]
     },
     {
         path: '/counter/admin/login',
@@ -359,9 +373,9 @@ const routes = [
         // component: () => import('../views/Counter/login/CashierLoginView.vue')
     },
     {
-        path:'/counter/cashier',
+        path: '/counter/cashier',
         component: CounterBaseLayout,
-        children:[
+        children: [
             {
                 path: 'currentDeposit',
                 name: 'cashierCurrentDeposit',

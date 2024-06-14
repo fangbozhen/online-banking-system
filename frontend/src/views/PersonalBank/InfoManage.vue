@@ -205,9 +205,8 @@ export default {
     async ConfirmAddAccount() {
       const encrypted = CryptoJS.SHA256(this.AddAccount.paymentPassword).toString();
       axios.defaults.headers.common['Authorization'] = Cookies.get('token');
-      axios.post("/account/bind",
+      axios.post("/card/bind",
         {
-          "username": this.Acc_Info.username,
           "card_id": Number(this.AddAccount.accountNumber),
           "password": encrypted
         })
