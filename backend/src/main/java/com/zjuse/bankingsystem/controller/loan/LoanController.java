@@ -58,7 +58,7 @@ public class LoanController {
         String permission;double rate;
         System.out.println(loan.getAmount());
         System.out.println(credit);
-        if(loan.getAmount()>500) {permission="large";rate=0.01;}
+        if(loan.getAmount()>5000) {permission="large";rate=0.01;}
         else {permission="small";rate=0.03;}
 
         //artificial

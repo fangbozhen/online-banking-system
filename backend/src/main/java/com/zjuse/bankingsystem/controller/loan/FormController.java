@@ -2,6 +2,7 @@ package com.zjuse.bankingsystem.controller.loan;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zjuse.bankingsystem.security.service.CurrentUserService;
 import com.zjuse.bankingsystem.service.loan.FormService;
 import com.zjuse.bankingsystem.service.loan.FormInsertService;
 import com.zjuse.bankingsystem.entity.loan.Form;
@@ -18,10 +19,17 @@ public class FormController {
     private FormInsertService formInsertService;
     @Autowired
     private FormService formService;
+    @Autowired
+    private CurrentUserService currentUserService;
 
     @PostMapping("/add-form")
     public Map<String, Object> insertForm(@RequestBody Form form) {
-        int result = formInsertService.insertform(form);
+        int result;
+        if(!form.getIdNumber().equals(currentUserService.getCurrentUserIdNumber().payload)) {
+            result = 0;
+        }else {
+            result = formInsertService.insertform(form);
+        }
         Map<String, Object> response = new HashMap<>();
         if (result > 0) {
             response.put("message", "Form created successfully!");
