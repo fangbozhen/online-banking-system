@@ -34,7 +34,8 @@ public class LoanApprovalService {
     }
 
     public Loan searchLoans(int form_id) {
-        return loanMapper.selectOne(new QueryWrapper<Loan>().eq("form_id", form_id));
+        Loan loan = loanMapper.selectOne(new QueryWrapper<Loan>().eq("form_id", form_id));
+        return loan != null ? loan : null; // 明确返回 null
     }
 
     public Long getCardId(int loan_id) {return loanMapper.getCardId(loan_id);}

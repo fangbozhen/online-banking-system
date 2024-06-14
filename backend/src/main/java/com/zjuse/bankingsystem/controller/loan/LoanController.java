@@ -1,5 +1,6 @@
 package com.zjuse.bankingsystem.controller.loan;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -69,7 +70,8 @@ public class LoanController {
             //get random suitable officer_id from officer_tanble
             int id=loanApplyService.getofficerid(permission);
             loan.setOfficerId(id);
-            result=loanApplyService.insertloan(loan);
+            if(id==0) result=0;
+             result=loanApplyService.insertloan(loan);
         }
         //automic
         else{
@@ -138,6 +140,8 @@ public class LoanController {
 
     @GetMapping("/search-loans/{form_id}")
     public Loan searchLoans(@PathVariable("form_id") int form_id) {
-        return loanApprovalService.searchLoans(form_id);
+
+        Loan loan = loanApprovalService.searchLoans(form_id);
+        return loan != null ? loan:null;
     }
 }

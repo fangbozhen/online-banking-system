@@ -36,10 +36,8 @@ public class OfficerController {
         Officer officer = loginService.findOfficerByUsername(officerUsername);
         int officer_id = officer.getOfficerId();
 
-        UpdateWrapper<Officer> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.and(wrapper->wrapper.eq("officer_id",officer_id).eq("Password", currentPassword)).set("password", newPassword);
 
-        int result = officerService.updatePassword(updateWrapper);
+        int result = officerService.updatePassword(officer_id,currentPassword,newPassword);
         if (result > 0) {
             return "Password updated successfully!";
         } else {

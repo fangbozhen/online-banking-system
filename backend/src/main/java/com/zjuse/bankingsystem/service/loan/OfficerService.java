@@ -17,7 +17,7 @@ public class OfficerService {
     @Autowired
     OfficerMapper officerMapper;
 
-    public int updatePassword(UpdateWrapper<Officer> updateWrapper) { return officerMapper.update(updateWrapper); }
+    public int updatePassword(int a,String b,String c) { return officerMapper.updatepassword(a,b,c); }
 
 
     public String insertOfficer(Officer officer) {
