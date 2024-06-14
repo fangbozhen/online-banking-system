@@ -59,6 +59,7 @@ public class CurrencyManagerController {
     @RequestMapping("/operation")
     public RespResult operatorCurrency(@RequestBody Operation operation) {
         ApiResult result = new ApiResult(false, "fail to ");
+        HistoryOperationRecord historyOperationRecord = operation.toHistoryOperationRecord(currencyManagerService);
         try{
             DataOperatorInfo dataOperator = dataOperatorService.selectDataOperatorById(operation.getData_operator_id());
             if(operation.getOpid() == Operation.OPERATION.ADD.getValue()){
@@ -82,7 +83,6 @@ public class CurrencyManagerController {
         }catch(Exception e){
             return RespResult.fail( e.getMessage());
         }
-        HistoryOperationRecord historyOperationRecord = operation.toHistoryOperationRecord(currencyManagerService);
         if(result.ok){
             try{
                 historyOperationRecordService.createHistoryOperationRecord(historyOperationRecord);
