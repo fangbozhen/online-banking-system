@@ -13,11 +13,8 @@
                 <el-table-column sortable label="时间" prop="history_date"/>
                 <el-table-column align="right">
                   <template #default="scope">
-                    <el-button size="small" @click="handleEdit(props.row, scope.row)">
+                    <el-button size="small" type="danger" @click="handleEdit(props.row, scope.row)">
                       Edit
-                    </el-button>
-                    <el-button size="small" type="danger" @click="handleDelete(props.row, scope.row)">
-                      Delete
                     </el-button>
                   </template>
                 </el-table-column>
