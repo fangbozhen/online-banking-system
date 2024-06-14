@@ -5,7 +5,6 @@ import com.zjuse.bankingsystem.entity.deposite.FixedDeposit;
 import com.zjuse.bankingsystem.entity.deposite.Property;
 import com.zjuse.bankingsystem.entity.deposite.Rate;
 import com.zjuse.bankingsystem.security.service.CurrentUserService;
-import com.zjuse.bankingsystem.service.*;
 import com.zjuse.bankingsystem.service.deposite.AccountService;
 import com.zjuse.bankingsystem.service.deposite.CashierService;
 import com.zjuse.bankingsystem.service.deposite.FixedDepositService;

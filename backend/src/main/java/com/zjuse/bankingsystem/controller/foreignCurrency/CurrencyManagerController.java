@@ -70,14 +70,14 @@ public class CurrencyManagerController {
                 }   
             }
             else if(operation.getOpid() == Operation.OPERATION.UPDATE.getValue()){
-                if(!dataOperator.getAdd_permission())
+                if(!dataOperator.getUpdate_permission())
                     throw new Exception("No permission");
                 if(currencyManagerService.updateCurrencyRate(operation.getDest_date(),operation.getRate(), operation.getFc_name(), operation.getData_operator_id())) {
                     result.ok = true;
                     result.message = "Success";
                 }
             }else{
-                result.message = "error operation";
+                throw new Exception("error operation");
             }
         }catch(Exception e){
             return RespResult.fail( e.getMessage());

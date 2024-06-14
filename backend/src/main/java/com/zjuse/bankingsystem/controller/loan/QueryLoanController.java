@@ -66,14 +66,14 @@ public class QueryLoanController {
         private Double amount;
         private LoanStatus status;
         private Double rate;
-        private LocalDate date_applied;
-        private LocalDate date_approved;
+        private LocalDate startDate;
+        private LocalDate endDate;
         private String sortCondition;
 
         public Double getAmount() {return amount;}
         public Double getRate() {return rate;}
-        public LocalDate getStartDate() {return date_applied;}
-        public LocalDate getEndDate() {return date_approved;}
+        public LocalDate getStartDate() {return startDate;}
+        public LocalDate getEndDate() {return endDate;}
         public String getSortCondition() {return sortCondition;}
         public LoanStatus getStatus() {return status;}
         enum LoanStatus {

@@ -36,7 +36,7 @@ public class TradeController {
      * @return 交易结果消息
      */
     @PostMapping("/execute")
-    public RespResult executeTrade(
+    public RespResult executeTrade(@RequestParam String password, 
             @RequestBody TradeRecord record) {
         // NO id will come fron front end so we need to get it from current user
         // Check record.getUserId() 与 record.getCreditCardId() 是否合法
@@ -57,6 +57,6 @@ public class TradeController {
         }
         if (!find)
             return RespResult.fail("卡号错误");
-        return tradeService.executeTrade(record);
+        return tradeService.executeTrade(record, password);
     }
 }
