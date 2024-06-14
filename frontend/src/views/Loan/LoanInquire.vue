@@ -92,6 +92,7 @@ export default {
         const loanPromises = formIds.map(async formId => {
           try {
             const loanResponse = await axiosInstance.get(`/search-loans/${formId}`);
+            if(loanResponse.data!== null)
             return loanResponse.data;
           } catch (loanError) {
             console.error(`获取贷款数据时发生错误: ${loanError}`);
@@ -100,8 +101,9 @@ export default {
           }
         });
 
-        loans.value = await Promise.all(loanPromises);
-        totalLoans.value = formResponse.data.total;
+        loans.value = (await Promise.all(loanPromises)).filter(loan => loan !== null && loan !== "");
+        console.log(loans);
+        totalLoans.value = loans.value.total;
 
         if (loans.value.length === 0) {
           ElMessage.error('没有找到相关贷款记录');

@@ -6,16 +6,20 @@
           <el-input v-model="loanHistoryData.amount" placeholder="请输入贷款金额" />
         </el-form-item>
         <el-form-item label="贷款时间">
-          <el-date-picker v-model="loanHistoryData.startDate"
-                          type="date"
-                          placeholder="开始日期"
-                          value-format="YYYY-MM-DD"
-                          format="YYYY-MM-DD"></el-date-picker>
-          <el-date-picker v-model="loanHistoryData.endDate"
-                          type="date"
-                          placeholder="结束日期"
-                          value-format="YYYY-MM-DD"
-                          format="YYYY-MM-DD"></el-date-picker>
+          <el-date-picker
+              v-model="loanHistoryData.startDate"
+              type="date"
+              placeholder="开始日期"
+              value-format="YYYY-MM-DD"
+            format="YYYY-MM-DD"
+          ></el-date-picker>
+          <el-date-picker
+              v-model="loanHistoryData.endDate"
+              type="date"
+              placeholder="结束日期"
+              value-format="YYYY-MM-DD"
+            format="YYYY-MM-DD"
+          ></el-date-picker>
         </el-form-item>
         <el-form-item label="贷款状态">
           <el-select v-model="loanHistoryData.status" placeholder="请选择贷款状态">
@@ -49,20 +53,18 @@
         <el-table-column prop="amount" label="贷款金额"></el-table-column>
         <el-table-column prop="rate" label="利率"></el-table-column>
         <el-table-column prop="term" label="贷款期限"></el-table-column>
-        <el-table-column label="贷款状态">
-          <template v-slot="scope">
-            <span>{{ getStatusText(scope.row.status) }}</span>
-          </template>
-        </el-table-column>
+        <el-table-column prop="status" label="贷款状态"></el-table-column>
         <el-table-column prop="date_applied" label="申请日期"></el-table-column>
         <el-table-column prop="date_approved" label="批准日期"></el-table-column>
       </el-table>
-      <el-pagination background
-                     layout="prev, pager, next, jumper"
-                     :total="totalLoans"
-                     :page-size="pageSize"
-                     v-model:current-page="currentPage"
-                     @current-change="handlePageChange"></el-pagination>
+      <el-pagination
+          background
+          layout="prev, pager, next, jumper"
+          :total="totalLoans"
+          :page-size="pageSize"
+          v-model:current-page="currentPage"
+          @current-change="handlePageChange"
+      ></el-pagination>
     </div>
   </div>
 </template>
@@ -123,21 +125,10 @@ export default {
     },
     handlePageChange(page) {
       this.queryLoanHistory(page);
-    },
-    getStatusText(status) {
-      const statusMap = {
-        application: '申请中',
-        repayment: '还款中',
-        declined: '已拒绝',
-        settled: '已结清',
-        overdue: '逾期'
-      };
-      return statusMap[status] || '未知状态';
     }
   }
 };
 </script>
-
 <style scoped>
 .page-container {
   max-width: 800px;
