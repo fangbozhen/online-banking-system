@@ -69,20 +69,27 @@
                   this.$message.error('获取用户银行卡信息失败。');
               }
           },
-          async confirmRepayment() {
-              try {
-                  const formData = {
-                      loan_id: this.repaymentData.loan_id,
-                      info: this.repaymentData.selectedCard,
-                      password: CryptoJS.SHA256(this.repaymentData.password).toString()
-                  };
-                  await axiosInstance.post('/confirm-repayment', formData);
-                  this.$message.success('还款申请已提交成功！');
-              } catch (error) {
-                  console.error('提交还款申请时发生错误:', error); 
-                  this.$message.error('提交失败。');
-              }
-          }
+        async confirmRepayment() {
+    try {
+        const formData = {
+            loan_id: this.repaymentData.loan_id,
+            info: this.repaymentData.selectedCard,
+            password: CryptoJS.SHA256(this.repaymentData.password).toString()
+        };
+        const response = await axiosInstance.post('/confirm-repayment', formData);
+        
+        if (response.data.message === "Lack of balance!") {
+            this.$message.error('余额不足，提交失败。');
+        } else if (response.data.message === "Repayment successfully!") {
+            this.$message.success('还款申请已提交成功！');
+        } else {
+            this.$message.error('提交失败。');
+        }
+    } catch (error) {
+        console.error('提交还款申请时发生错误:', error); 
+        this.$message.error('提交失败。');
+    }
+}
 
       }
   }
