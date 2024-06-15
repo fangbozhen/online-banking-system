@@ -85,7 +85,7 @@ export default {
       }
 
       const encrypted_password = CryptoJS.SHA256(this.admin.password).toString();
-      axios.post("admin/login",{
+      axios.post("/admin/login",{
           username: this.admin.name,
           password: encrypted_password
       }).then(response => {
@@ -107,7 +107,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .el-menu-item > a {
   color: inherit;
   text-decoration: none !important;

@@ -37,7 +37,7 @@
       <template #footer>
         <span>
           <el-button @click="modifyInfoVisible = false">取消</el-button>
-          <el-button type="primary" @click="handleModify">确定</el-button>
+          <el-button type="primary" @click="submitForm">确定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -58,7 +58,7 @@
       <template #footer>
         <span>
           <el-button @click="modifyPasswordVisible = false">取消</el-button>
-          <el-button type="primary" @click="handleModify">确定</el-button>
+          <el-button type="primary" @click="submitForm">确定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -75,7 +75,7 @@ import Cookies from 'js-cookie';
 export default {
   data() {
     const checkPassword = (rule, value, callback) => {
-      if (value !== this.passwordForm.password) {
+      if (value !== this.passwordForm.new_password) {
         callback(new Error('两次密码不一致'));
       } else {
         callback();
@@ -133,6 +133,21 @@ export default {
     handleLogout() {
       this.$router.push('/personalBank/user/login');
     },
+    submitForm() {
+      // 表单校验
+      if (this.modifyInfoVisible) {
+        this.$refs["modifyForm"].validate((valid) => {
+          if (!valid) {
+            ElMessage.error("修改失败，请检查修改信息");
+            return;
+          } else {
+            this.handleModify();
+          }
+        });
+      } else {
+        this.handleModify();
+      }
+    },
     handleModify() {
       if (this.modifyPasswordVisible) {
         this.modifyForm.password = this.passwordForm.password;
@@ -143,56 +158,48 @@ export default {
       const encryptedOld = CryptoJS.SHA256(this.modifyForm.password).toString();
       const encryptedNew = CryptoJS.SHA256(this.modifyForm.new_password).toString();
       axios.defaults.headers.common['Authorization'] = Cookies.get('token');
-      axios.put("/user/profile",
-        {
-          "username": this.modifyForm.username,
-          "password": encryptedOld,
-          "id_number": this.modifyForm.id_number,
-          "phone_number": this.modifyForm.phone_number,
-          "email": this.modifyForm.email,
-          "new_password": encryptedNew
-        }
+      axios.post("/user/profile/update",
+          {
+            "username": this.modifyForm.username,
+            "password": encryptedOld,
+            "id_number": this.modifyForm.id_number,
+            "phone_number": this.modifyForm.phone_number,
+            "email": this.modifyForm.email,
+            "new_password": encryptedNew
+          }
       )
-      .then(response => {
-        if (response.data.code === 0) {
-          ElMessage.success("修改成功");
-          this.modifyInfoVisible = false;
-          this.modifyPasswordVisible = false;
-          this.queryInfo();
-        } else {
-          ElMessage.error(response.data.err);
-          return;
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      })
+          .then(response => {
+            if (response.data.code === 0) {
+              ElMessage.success("修改成功");
+              this.modifyInfoVisible = false;
+              this.modifyPasswordVisible = false;
+              this.queryInfo();
+            } else {
+              ElMessage.error(response.data.err);
+              return;
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          })
     },
     async queryInfo() {
       axios.defaults.headers.common['Authorization'] = Cookies.get('token');
       await axios.get("/user/profile")
-        .then(response => {
-          if (response.data.code === 0) {
-            this.userInfo.username = response.data.payload.username;
-            this.userInfo.id_number = response.data.payload.id_number;
-            this.userInfo.phone_number = response.data.payload.phone_number;
-            this.userInfo.email = response.data.payload.email;
-          } else {
-            ElMessage.error(response.data.err);
-            return;
-          }
-        })
-        .catch(error => {
-          console.log(error);
-        })
-
-      // for debug
-      this.userInfo = {
-        username: 'xyxyxy',
-        id_number: '330812200001013316',
-        phone_number: '18888888888',
-        email: 'xyxyxy@xy.com'
-      };
+          .then(response => {
+            if (response.data.code === 0) {
+              this.userInfo.username = response.data.payload.username;
+              this.userInfo.id_number = response.data.payload.id_number;
+              this.userInfo.phone_number = response.data.payload.phone_number;
+              this.userInfo.email = response.data.payload.email;
+            } else {
+              ElMessage.error(response.data.err);
+              return;
+            }
+          })
+          .catch(error => {
+            console.log(error);
+          })
     }
   },
   mounted() {
@@ -202,41 +209,5 @@ export default {
 </script>
 
 <style scoped>
-
-.main {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  min-height: 100%;
-  height: auto;
-  background-color: #dcdcdc;
-}
-
-.information-card {
-  width: 100%;
-  min-height: 95%;
-  height: auto;
-}
-
-.title {
-  background-color: #ffffff;
-  height: 60px;
-}
-
-.aside {
-  min-height: calc(100vh - 60px);
-  width: 180px;
-  background-color: red;
-}
-
-.logout-button {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-}
 
 </style>

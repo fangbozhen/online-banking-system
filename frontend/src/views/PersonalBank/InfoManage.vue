@@ -1,20 +1,21 @@
 <template>
-  <el-container style="width: 100%;">
+  <el-container style="width: 100%; padding: 20px; box-sizing: border-box;">
     <el-main style="height: 100%; width: 100%; position: relative;">
-      <div style="background-color: white; width: 100%; height: auto; padding: 20px; margin-bottom: 20px;">
+      <div style="background-color: white; padding: 20px; box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1); border-radius: 8px;">
         <div style="font-size: 24px;">账户信息管理</div>
-        <button @click="JumpToCreditCard" style="position: absolute; top: 40px; right: 160px; background-color: blue; color: white; border: none; padding: 10px 20px; cursor: pointer; font-size: 16px; border-radius: 4px;">信用卡相关</button>
-        <button @click="OpenAddAccount" style="position: absolute; top: 40px; right: 20px; background-color: blue; color: white; border: none; padding: 10px 20px; cursor: pointer; font-size: 16px; border-radius: 4px;">添加新账户</button>
+        <div style="display: flex; justify-content: flex-end; gap: 20px;">
+          <el-button @click="JumpToCreditCard" type="primary">信用卡相关</el-button>
+          <el-button @click="OpenAddAccount" type="primary">添加新账户</el-button>
+        </div>
 
-        <el-table :data="AccountData" height="600" 
-            style="width: 100%; margin-left: 50px; margin-top: 30px; margin-right: 50px; max-width: 80vw; table-layout: fixed;">
+        <el-table :data="AccountData" style="margin-top: 20px;" border>
           <el-table-column prop="account_number" label="账户号码" min-width="150"></el-table-column>
           <el-table-column prop="category" label="账户类别" min-width="150"></el-table-column>
           <el-table-column label="操作" min-width="200">
             <template v-slot="scope">
-              <el-button type="text" @click="Check(scope.row)" style="border: 1px solid red; color: red; height: 24px; line-height: 22px;">交易明细</el-button>
-              <el-button type="text" @click="Transfer(scope.row)" style="border: 1px solid green; color: green; height: 24px; line-height: 22px;">转账</el-button>
-              <el-button type="text" @click="PreLoss(scope.row)" style="border: 1px solid blue; color: blue; height: 24px; line-height: 22px;">挂失</el-button>
+              <el-button type="text" @click="Check(scope.row)" style="color: red;">交易明细</el-button>
+              <el-button type="text" @click="Transfer(scope.row)" style="color: green;">转账</el-button>
+              <el-button type="text" @click="PreLoss(scope.row)" style="color: blue;">挂失</el-button>
             </template>
           </el-table-column>
           <el-table-column label="余额" min-width="150">
@@ -42,7 +43,7 @@
           <el-input v-model="AddAccount.accountNumber" style="margin-left: 12pt; width: 100%;"></el-input>
         </el-form-item>
         <el-form-item label="支付密码" prop="paymentPassword">
-          <el-input v-model="AddAccount.paymentPassword" type="password" style="width: 100%;"></el-input>
+          <el-input v-model="AddAccount.paymentPassword" type="password" style="width: 100%;" show-password></el-input>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -63,7 +64,7 @@
           <el-input v-model="Trans.amount" style="margin-left: 31pt; width: 100%;"></el-input>
         </el-form-item>
         <el-form-item label="支付密码" prop="password">
-          <el-input v-model="Trans.password" type="password" style="margin-left: 10pt; width: 100%;"></el-input>
+          <el-input v-model="Trans.password" type="password" style="margin-left: 10pt; width: 100%;" show-password></el-input>
         </el-form-item>
         <el-form-item label="留言" prop="message">
           <el-input v-model="Trans.message" style="margin-left: 39pt; width: 100%;"></el-input>
@@ -81,7 +82,7 @@
     <el-dialog v-model="PasswordVisible" title="密码确认" width="30%">
       <el-form :model="PasswordCheck" :rules="passRules" ref="PasswordCheck" style="width: 100%;">
         <el-form-item label="支付密码" prop="Password">
-          <el-input v-model="PasswordCheck.Password" type="password" style="width: 100%;"></el-input>
+          <el-input v-model="PasswordCheck.Password" type="password" style="width: 100%;" show-password></el-input>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -96,31 +97,14 @@
     <el-dialog v-model="PassVisible" title="密码确认" width="30%">
       <el-form :model="PasswordCheck" :rules="passRules"  style="width: 100%;">
         <el-form-item label="支付密码" prop="Password">
-          <el-input v-model="PasswordCheck.Password" type="password" style="width: 100%;"></el-input>
+          <el-input v-model="PasswordCheck.Password" type="password" style="width: 100%;" show-password></el-input>
         </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="PasswordVisible = false">取消</el-button>
-          <el-button type="primary" @click="getBalance(Row)"
+          <el-button @click="PassVisible = false">取消</el-button>
+          <el-button type="primary" @click="getBalance()"
           :disabled="PasswordCheck.Password.length === 0">确定</el-button>
-        </span>
-      </template>
-    </el-dialog>
-
-    <el-dialog v-model="PassError" title="支付密码错误" width="30%">
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button type="primary" @click="PasswordError">确定</el-button>
-        </span>
-      </template>
-    </el-dialog>
-
-    <el-dialog v-model="LossVisible" title="确认挂失" width="30%">
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="LossVisible = false">取消</el-button>
-          <el-button type="primary" @click="ConfirmLoss">确定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -221,9 +205,8 @@ export default {
     async ConfirmAddAccount() {
       const encrypted = CryptoJS.SHA256(this.AddAccount.paymentPassword).toString();
       axios.defaults.headers.common['Authorization'] = Cookies.get('token');
-      axios.post("/account/bind",
+      axios.post("/card/bind",
         {
-          "username": this.Acc_Info.username,
           "card_id": Number(this.AddAccount.accountNumber),
           "password": encrypted
         })
@@ -273,14 +256,16 @@ export default {
       try {
         const encrypted = CryptoJS.SHA256(this.PasswordCheck.Password).toString();
         axios.defaults.headers.common['Authorization'] = Cookies.get('token');
-        let response = await axios.get("/card/balance", 
+        console.log(this.PasswordCheck.account_number); 
+        let response = await axios.get("/card/balance", { params:
           {
             "card_id": Number(this.PasswordCheck.account_number),
             "password": encrypted
-          });
-        this.PasswordCheck.Row.balance = parseFloat(response.data.balance).toFixed(2),
+          }});
+        this.PasswordCheck.Row.balance = parseFloat(response.data['payload']).toFixed(2),
         this.PassVisible = false,
         this.PasswordCheck.Row.showBalance = true
+        this.PasswordCheck.Password = ""
       } catch (error) {
         console.log(error);
       }
@@ -290,7 +275,7 @@ export default {
     },
     TransactionDetail() {
       this.$router.push({
-        path: '/personalBank/transfer',
+        path: '/personalBank/user/transfer',
         query: { account_number: this.PasswordCheck.account_number }
       });
     },
@@ -307,7 +292,7 @@ export default {
     Password_Check(){
       const encrypted = CryptoJS.SHA256(this.PasswordCheck.Password).toString();
       axios.defaults.headers.common['Authorization'] = Cookies.get('token');
-      axios.post("/password/check", 
+      axios.post("/card/valid", 
         {
           "card_id": Number(this.PasswordCheck.account_number),
           "password": encrypted
@@ -319,11 +304,12 @@ export default {
               this.TransactionDetail();
             }
             if (this.PasswordCheck.op == '2') {
-              this.LossVisible = true;
+              this.ConfirmLoss();
             }
           }
           else {
-            this.PassError = true;
+            ElMessage.error(response.data.err);
+            return ;
           }
         })
         .catch(error => {
@@ -337,7 +323,7 @@ export default {
     async ConfirmTransfer(){ 
       const encrypted = CryptoJS.SHA256(this.Trans.password).toString();
       axios.defaults.headers.common['Authorization'] = Cookies.get('token');
-      axios.post("/option/transfer",
+      axios.post("/transfer",
         {
           "target_card": Number(this.Trans.toaccount),
           "card_id": Number(this.Trans.fromaccount),
@@ -349,6 +335,7 @@ export default {
           if (response.data.code == 0) {
             ElMessage.success("转账成功");
             this.TransVisible = false;
+            this.QueryAccount(); 
           } else {
             ElMessage.error(response.data.err);
             return;
@@ -372,15 +359,18 @@ export default {
       this.PasswordVisible = true
     },
     async ConfirmLoss() { 
+      const encrypted = CryptoJS.SHA256(this.PasswordCheck.Password).toString();
       axios.defaults.headers.common['Authorization'] = Cookies.get('token');
       axios.post("/card/loss",
         {
-          "card_id": Number(this.Loss_account_number)
+          "card_id": Number(this.Loss_account_number),
+          "password": encrypted
         })
         .then(response => {
           if (response.data.code == 0) {
             ElMessage.success("挂失成功");
             this.LossVisible = false;
+            this.QueryAccount(); 
           } else {
             ElMessage.error(response.data.err);
             return;
@@ -398,43 +388,6 @@ export default {
 </script>
 
 <style scoped>
-#app {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background-color: #dcdcdc;
-  width: 100vw;
-  height: 100vh;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.main {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  min-height: 100%;
-  height: auto;
-  background-color: #dcdcdc;
-
-}
-
-.title {
-  background-color: #ffffff;
-  height: 60px;
-}
-
-.aside {
-  min-height: calc(100vh - 60px);
-  width: 180px;
-  background-color: red;
-}
 
 </style>
 
