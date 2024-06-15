@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zjuse.bankingsystem.entity.loan.Manager;
 import com.zjuse.bankingsystem.entity.loan.Officer;
 import com.zjuse.bankingsystem.mapper.loan.OfficerMapper;
+import com.zjuse.bankingsystem.security.service.UserCacheManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ public class OfficerService {
 
     @Autowired
     OfficerMapper officerMapper;
+    
 
     public int updatePassword(int a,String b,String c) { return officerMapper.updatepassword(a,b,c); }
 

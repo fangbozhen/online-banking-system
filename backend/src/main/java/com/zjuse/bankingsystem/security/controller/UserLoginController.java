@@ -148,7 +148,7 @@ public class UserLoginController {
         if (!apiResult.ok) {
             return RespResult.fail(apiResult.message);
         }
-        userCacheManager.cleanUserCache(req.getUsername());
+        userCacheManager.cleanUserCache("USER-" + req.getUsername());
 
         return RespResult.success(); 
     }

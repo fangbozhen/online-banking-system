@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import com.zjuse.bankingsystem.entity.loan.Officer;
 import com.zjuse.bankingsystem.security.service.CurrentUserService;
+import com.zjuse.bankingsystem.security.service.UserCacheManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,8 @@ public class OfficerController {
     private OfficerLoginService loginService;
     @Autowired
     private CurrentUserService currentUserService;
+    @Autowired
+    private UserCacheManager userCacheManager; 
 
     @PutMapping("/officer-main/update-officer-password-by-officer")
     public String updateOfficerPasswordByOfficer(@RequestParam String currentPassword, @RequestParam String newPassword) {
@@ -35,6 +38,7 @@ public class OfficerController {
         officerUsername = (String)currentUserService.getCurrentUsername().payload;
         Officer officer = loginService.findOfficerByUsername(officerUsername);
         int officer_id = officer.getOfficerId();
+        userCacheManager.cleanUserCache("OFFICER-" + officerUsername);
 
 
         int result = officerService.updatePassword(officer_id,currentPassword,newPassword);

@@ -375,7 +375,7 @@ public class UserAndCardService {
                 return apiResult;
             }
             else {
-                ApiResult apiResult = accountService.VerifyPassword(cardId, password);
+                ApiResult apiResult = accountService.VerifyPasswordAccount(cardId, password);
                 return apiResult;
             }
         }

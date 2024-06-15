@@ -5,9 +5,12 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Component;
 
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -15,6 +18,12 @@ import lombok.extern.slf4j.Slf4j;
 public class RedisUtils {
     @Autowired
     private RedisTemplate<Object, Object> redisTemplate;
+
+    @PostConstruct
+    public void setUp() {
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+    }
 
     public boolean set(String key, Object value) {
         try {
@@ -31,6 +40,7 @@ public class RedisUtils {
      */
     public boolean set(String key, Object value, long time) {
         try {
+            log.info(key);
             if (time > 0) {
                 redisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
             } else {
@@ -53,7 +63,7 @@ public class RedisUtils {
     /* 
      * 根据 key 获得过期时间
      */
-    public long getExpire(Object key) {
+    public long getExpire(String key) {
         return redisTemplate.getExpire(key, TimeUnit.SECONDS);
     }
 
@@ -67,15 +77,15 @@ public class RedisUtils {
             if (keys.length == 1) {
                 boolean result = redisTemplate.delete(keys[0]);
                 log.debug("--------------------------------------------");
-                log.debug(new StringBuilder("删除缓存：").append(keys[0]).append("，结果：").append(result).toString());
+                log.info(new StringBuilder("删除缓存：").append(keys[0]).append("，结果：").append(result).toString());
                 log.debug("--------------------------------------------");
             } else {
-                Set<Object> keySet = new HashSet<>();
+                Set<String> keySet = new HashSet<>();
                 for (String key : keys) {
                     if (redisTemplate.hasKey(key))
                         keySet.add(key);
                 }
-                long count = redisTemplate.delete(keySet);
+                boolean count = redisTemplate.delete(keySet);
                 log.debug("--------------------------------------------");
                 log.debug("成功删除缓存：" + keySet.toString());
                 log.debug("缓存删除数量：" + count + "个");

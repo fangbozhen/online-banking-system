@@ -9,7 +9,9 @@ import com.zjuse.bankingsystem.utils.RedisUtils;
 
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Component
 public class UserCacheManager {
     @Autowired
@@ -41,6 +43,7 @@ public class UserCacheManager {
 
     public void cleanUserCache(String username) {
         if (!StrUtil.isBlank(username)) {
+            log.info(username); 
             redisUtils.del(cacheKey(username));
         }
     }
